@@ -24,10 +24,18 @@ class Contents extends Component {
       value: e,
     });
   };
+
   itemCheck = () => {
     const {checkStatus, item} = this.props;
     checkStatus(item.id);
   };
+
+  updatingData = () => {
+    const {updatingData, item} = this.props;
+    const {value} = this.state;
+    updatingData(item.id, value);
+  };
+
   deleteItem = () => {
     const {deleteItem, item} = this.props;
     deleteItem(item.id);
@@ -53,6 +61,8 @@ class Contents extends Component {
             placeholder="contents"
             value={value}
             onChangeText={this.handleContent}
+            editable={item.status}
+            onSubmitEditing={this.updatingData}
           />
         </View>
         <View style={styles.ImagesClose}>

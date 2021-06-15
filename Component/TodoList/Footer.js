@@ -1,33 +1,40 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 class Footer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      Active: false,
-    };
-  }
-  onActive = () => {
-    const {Active} = this.state;
-    this.setState({
-      Active: !Active,
-    });
+  statusShowAll = () => {
+    const {updateStatusShow} = this.props;
+    // updateStatusShow('all');
+  };
+  statusShowActive = () => {
+    const {updateStatusShow} = this.props;
+    // updateStatusShow('active');
+  };
+  statusShowCompleted = () => {
+    const {updateStatusShow} = this.props;
+    // updateStatusShow('completed');
   };
   render() {
-    // const {Active} = this.state;
+    // const {numberActive} = this.props;
+    // console.log({numberActive});
     return (
       <View style={styles.Footer}>
         <View style={styles.Text}>
-          <Text> items left</Text>
+          <Text>0 items left</Text>
         </View>
-        <View style={styles.All} onPress={() => this.onActive}>
-          <Text> All</Text>
+        <View style={styles.All}>
+          <TouchableOpacity onPress={this.statusShowAll('all')}>
+            <Text>All</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.Active} onPress={() => this.onActive}>
-          <Text> Active</Text>
+        <View style={styles.Active}>
+          <TouchableOpacity onPress={this.statusShowActive('active')}>
+            <Text>Active</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.Completed} onPress={() => this.onActive}>
-          <Text> Completed</Text>
+        <View style={styles.Completed}>
+          <TouchableOpacity onPress={this.statusShowCompleted('completed')}>
+            <Text>Completed</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.ClearCompleted}>
           <Text> Clear completed</Text>

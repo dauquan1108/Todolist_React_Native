@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     borderColor: '#2526269c',
     borderWidth: 1,
+    borderRadius: 5,
   },
 });
 export default Header;

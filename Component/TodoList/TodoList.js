@@ -15,11 +15,35 @@ class TodoList extends Component {
         {id: 5, text: 'Hoc html', status: true},
         {id: 6, text: 'Hoc c++', status: true},
       ],
+      statusShow: 'all',
     };
   }
+  static getDerivedStateFromProps(props, state) {
+    const {statusShow} = state;
+    switch (statusShow) {
+      case 'active': {
+        console.log('Active');
+        break;
+      }
+      case 'completed': {
+        console.log(' Completed');
+        break;
+      }
+      default: {
+        console.log('all');
+        break;
+      }
+    }
+  }
+
+  updateStatusShow = statusShow => {
+    this.setState({
+      statusShow: statusShow,
+    });
+  };
+
   checkStatus = id => {
     const {todolist} = this.state;
-    console.log({id});
     todolist.forEach(item => {
       if (item.id === id) {
         item.status = !item.status;
@@ -42,6 +66,18 @@ class TodoList extends Component {
     });
   };
 
+  updatingData = (id, value) => {
+    const {todolist} = this.state;
+    todolist.forEach(item => {
+      if (item.id === id) {
+        item.text = value;
+      }
+    });
+    this.setState({
+      todolist,
+    });
+  };
+
   deleteItem = id => {
     const {todolist} = this.state;
     const todoListCopy = [...todolist];
@@ -49,6 +85,13 @@ class TodoList extends Component {
     this.setState({
       todolist: todoListDeleted,
     });
+  };
+
+  numberActive = () => {
+    // const {todolist} = this.state;
+    // const todoNumber = todolist.filter(num => !num.status);
+    // console.log({todoNumber});
+    console.log('ok1');
   };
   render() {
     const {todolist} = this.state;
@@ -66,13 +109,17 @@ class TodoList extends Component {
                   key={item.id}
                   checkStatus={this.checkStatus}
                   deleteItem={this.deleteItem}
+                  updatingData={this.updatingData}
                 />
               );
             })}
           </ScrollView>
         </View>
         <View style={styles.Footer}>
-          <Footer />
+          <Footer
+            updateStatusShow={this.updateStatusShow}
+            numberActive={this.numberActive}
+          />
         </View>
       </View>
     );
