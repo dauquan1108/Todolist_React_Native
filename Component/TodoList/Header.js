@@ -37,11 +37,6 @@ class Header extends Component {
             onSubmitEditing={this.onClick}
           />
         </View>
-        <View style={styles.ButtonHeader}>
-          <TouchableOpacity style={styles.Button} onPress={this.onClick}>
-            <Text>Click</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     );
   }
@@ -52,21 +47,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   InputHeader: {
-    flex: 8,
-  },
-  ButtonHeader: {
-    flex: 2,
+    flex: 1,
   },
   Input: {
-    padding: 5,
+    paddingLeft: 15,
     borderColor: '#2526269c',
     borderWidth: 1,
-  },
-  Button: {
-    alignItems: 'center',
-    backgroundColor: '#4dccc6',
-    fontWeight: 'bold',
-    padding: 10,
   },
 });
 export default Header;

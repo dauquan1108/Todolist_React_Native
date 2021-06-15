@@ -8,24 +8,46 @@ class TodoList extends Component {
     super();
     this.state = {
       todolist: [
-        {id: 1, text: 'Hoc wed', close: true},
-        {id: 2, text: 'Hoc Tin', close: true},
-        {id: 3, text: 'Hoc css', close: true},
-        {id: 4, text: 'Hoc js', close: true},
-        {id: 5, text: 'Hoc html', close: true},
-        {id: 6, text: 'Hoc c++', close: true},
+        {id: 1, text: 'Hoc wed', status: true},
+        {id: 2, text: 'Hoc Tin', status: true},
+        {id: 3, text: 'Hoc css', status: false},
+        {id: 4, text: 'Hoc js', status: true},
+        {id: 5, text: 'Hoc html', status: true},
+        {id: 6, text: 'Hoc c++', status: true},
       ],
     };
   }
-  AddData = value => {
+  checkStatus = id => {
+    const {todolist} = this.state;
+    console.log({id});
+    todolist.forEach(item => {
+      if (item.id === id) {
+        item.status = !item.status;
+      }
+    });
+    this.setState({
+      todolist,
+    });
+  };
+
+  addData = value => {
     const {todolist} = this.state;
     todolist.unshift({
       id: todolist.length + 1,
       text: value,
-      close: true,
+      status: true,
     });
     this.setState({
       todolist,
+    });
+  };
+
+  deleteItem = id => {
+    const {todolist} = this.state;
+    const todoListCopy = [...todolist];
+    const todoListDeleted = todoListCopy.filter(todo => todo.id !== id);
+    this.setState({
+      todolist: todoListDeleted,
     });
   };
   render() {
@@ -33,12 +55,19 @@ class TodoList extends Component {
     return (
       <View style={styles.TodoList}>
         <View style={styles.Header}>
-          <Header AddData={this.AddData} />
+          <Header AddData={this.addData} />
         </View>
         <View style={styles.Contents}>
           <ScrollView>
             {todolist.map(item => {
-              return <Contents item={item} key={item.id} />;
+              return (
+                <Contents
+                  item={item}
+                  key={item.id}
+                  checkStatus={this.checkStatus}
+                  deleteItem={this.deleteItem}
+                />
+              );
             })}
           </ScrollView>
         </View>

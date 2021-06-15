@@ -16,7 +16,6 @@ class Contents extends Component {
     const {text} = item;
     this.state = {
       value: text,
-      check: true,
     };
   }
 
@@ -25,37 +24,41 @@ class Contents extends Component {
       value: e,
     });
   };
-  ItemCheck = () => {
-    const {check} = this.state;
-    console.log({check});
-    this.setState({
-      check: !check,
-    });
+  itemCheck = () => {
+    const {checkStatus, item} = this.props;
+    checkStatus(item.id);
+  };
+  deleteItem = () => {
+    const {deleteItem, item} = this.props;
+    deleteItem(item.id);
   };
   render() {
-    const {value, check} = this.state;
+    const {value} = this.state;
+    const {item} = this.props;
     return (
       <View style={styles.Content}>
         <View style={styles.ImagesCheck}>
-          <TouchableOpacity onPress={this.ItemCheck}>
+          <TouchableOpacity onPress={this.itemCheck}>
             <Image
               resizeMode={'cover'}
               style={styles.Images}
-              source={check ? Minus : Check}
+              source={item.status ? Minus : Check}
             />
           </TouchableOpacity>
         </View>
         <View style={styles.InputText}>
           <TextInput
             type="text"
-            style={check ? styles.Input : styles.InputCheck}
+            style={item.status ? styles.Input : styles.InputCheck}
             placeholder="contents"
             value={value}
             onChangeText={this.handleContent}
           />
         </View>
         <View style={styles.ImagesClose}>
-          <Image resizeMode={'cover'} style={styles.Images} source={Close} />
+          <TouchableOpacity onPress={this.deleteItem}>
+            <Image resizeMode={'cover'} style={styles.Images} source={Close} />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -95,15 +98,14 @@ const styles = StyleSheet.create({
 
   Input: {
     height: 30,
-    padding: 5,
     borderColor: '#2526269c',
     borderWidth: 1,
+    padding: 5,
+    fontWeight: 'bold',
   },
   InputCheck: {
     height: 30,
     padding: 5,
-    borderColor: '#2526269c',
-    borderWidth: 1,
     opacity: 0.5,
     textDecorationLine: 'line-through',
   },
