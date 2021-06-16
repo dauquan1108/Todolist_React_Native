@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     borderWidth: 1,
     borderRadius: 5,
-    marginTop: 5,
+    borderColor: '#b3b3b3',
+    marginTop: 10,
     flex: 1,
   },
 
@@ -108,10 +109,12 @@ const styles = StyleSheet.create({
 
   Input: {
     height: 30,
-    borderColor: '#2526269c',
-    borderWidth: 1,
+    margin: 5,
     padding: 5,
     fontWeight: 'bold',
+    borderColor: '#c1c1c1',
+    borderWidth: 1,
+    borderRadius: 5,
   },
   InputCheck: {
     height: 30,

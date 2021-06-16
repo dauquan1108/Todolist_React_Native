@@ -3,42 +3,49 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 class Footer extends Component {
   statusShowAll = () => {
     const {updateStatusShow} = this.props;
-    // updateStatusShow('all');
+    updateStatusShow('all');
   };
   statusShowActive = () => {
     const {updateStatusShow} = this.props;
-    // updateStatusShow('active');
+    updateStatusShow('active');
   };
   statusShowCompleted = () => {
     const {updateStatusShow} = this.props;
-    // updateStatusShow('completed');
+    updateStatusShow('completed');
+  };
+  clearCompleted = () => {
+    const {clearCompleted} = this.props;
+    clearCompleted();
   };
   render() {
-    // const {numberActive} = this.props;
-    // console.log({numberActive});
+    const {numberTodolist, onClearCompleted} = this.props;
     return (
       <View style={styles.Footer}>
         <View style={styles.Text}>
-          <Text>0 items left</Text>
+          <Text>{numberTodolist} items left</Text>
         </View>
         <View style={styles.All}>
-          <TouchableOpacity onPress={this.statusShowAll('all')}>
+          <TouchableOpacity onPress={this.statusShowAll}>
             <Text>All</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.Active}>
-          <TouchableOpacity onPress={this.statusShowActive('active')}>
+          <TouchableOpacity onPress={this.statusShowActive}>
             <Text>Active</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.Completed}>
-          <TouchableOpacity onPress={this.statusShowCompleted('completed')}>
+          <TouchableOpacity onPress={this.statusShowCompleted}>
             <Text>Completed</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.ClearCompleted}>
-          <Text> Clear completed</Text>
-        </View>
+        {onClearCompleted > 0 ? (
+          <View style={styles.ClearCompleted}>
+            <TouchableOpacity onPress={this.clearCompleted}>
+              <Text> Clear completed</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
       </View>
     );
   }

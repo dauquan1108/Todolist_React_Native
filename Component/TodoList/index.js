@@ -3,37 +3,40 @@ import Header from './Header';
 import Contents from './Contents';
 import Footer from './Footer';
 import {ScrollView, StyleSheet, View} from 'react-native';
-class TodoList extends Component {
+import uuid from 'react-native-uuid';
+class Index extends Component {
   constructor() {
     super();
     this.state = {
       todolist: [
         {id: 1, text: 'Hoc wed', status: true},
-        {id: 2, text: 'Hoc Tin', status: true},
+        {id: 2, text: 'Hoc Tin', status: false},
         {id: 3, text: 'Hoc css', status: false},
         {id: 4, text: 'Hoc js', status: true},
         {id: 5, text: 'Hoc html', status: true},
         {id: 6, text: 'Hoc c++', status: true},
       ],
+      todolistView: [],
       statusShow: 'all',
     };
   }
   static getDerivedStateFromProps(props, state) {
-    const {statusShow} = state;
+    const {statusShow, todolist} = state;
+    let todolistView = todolist;
     switch (statusShow) {
       case 'active': {
-        console.log('Active');
+        todolistView = todolist.filter(number => number.status);
         break;
       }
       case 'completed': {
-        console.log(' Completed');
+        todolistView = todolist.filter(num => !num.status);
         break;
       }
       default: {
-        console.log('all');
         break;
       }
     }
+    return {todolistView};
   }
 
   updateStatusShow = statusShow => {
@@ -57,7 +60,7 @@ class TodoList extends Component {
   addData = value => {
     const {todolist} = this.state;
     todolist.unshift({
-      id: todolist.length + 1,
+      id: uuid.v4(),
       text: value,
       status: true,
     });
@@ -88,13 +91,27 @@ class TodoList extends Component {
   };
 
   numberActive = () => {
-    // const {todolist} = this.state;
-    // const todoNumber = todolist.filter(num => !num.status);
-    // console.log({todoNumber});
-    console.log('ok1');
-  };
-  render() {
     const {todolist} = this.state;
+    const todoNumber = todolist.filter(num => num.status);
+    return todoNumber.length;
+  };
+
+  clearCompleted = () => {
+    const {todolist} = this.state;
+    this.setState({
+      todolist: todolist.filter(item => item.status),
+    });
+  };
+  checkNumberCompleted = () => {
+    const {todolist} = this.state;
+    const todoNumber = todolist.filter(num => !num.status);
+    return todoNumber.length;
+  };
+
+  render() {
+    const {todolistView, todolist} = this.state;
+    const numberTodolist = this.numberActive();
+    const onClearCompleted = this.checkNumberCompleted();
     return (
       <View style={styles.TodoList}>
         <View style={styles.Header}>
@@ -102,7 +119,7 @@ class TodoList extends Component {
         </View>
         <View style={styles.Contents}>
           <ScrollView>
-            {todolist.map(item => {
+            {todolistView.map(item => {
               return (
                 <Contents
                   item={item}
@@ -115,12 +132,16 @@ class TodoList extends Component {
             })}
           </ScrollView>
         </View>
-        <View style={styles.Footer}>
-          <Footer
-            updateStatusShow={this.updateStatusShow}
-            numberActive={this.numberActive}
-          />
-        </View>
+        {todolist.length ? (
+          <View style={styles.Footer}>
+            <Footer
+              clearCompleted={this.clearCompleted}
+              updateStatusShow={this.updateStatusShow}
+              numberTodolist={numberTodolist}
+              onClearCompleted={onClearCompleted}
+            />
+          </View>
+        ) : null}
       </View>
     );
   }
@@ -144,4 +165,4 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-export default TodoList;
+export default Index;
