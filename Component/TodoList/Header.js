@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
   Header: {
     flexDirection: 'row',
     flex: 1,
+    justifyContent: 'center',
   },
   InputHeader: {
     flex: 1,
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
     borderColor: '#2526269c',
     borderWidth: 1,
     borderRadius: 5,
+    // height: 60,
   },
 });
 export default Header;

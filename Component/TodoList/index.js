@@ -15,6 +15,15 @@ class Index extends Component {
         {id: 4, text: 'Hoc js', status: true},
         {id: 5, text: 'Hoc html', status: true},
         {id: 6, text: 'Hoc c++', status: true},
+        {id: 7, text: 'Hoc wed', status: true},
+        {id: 8, text: 'Hoc Tin', status: false},
+        {id: 9, text: 'Hoc css', status: false},
+        {id: 10, text: 'Hoc js', status: true},
+        {id: 11, text: 'Hoc html', status: true},
+        {id: 12, text: 'Hoc c++', status: true},
+        {id: 13, text: 'Hoc js', status: true},
+        {id: 14, text: 'Hoc html', status: true},
+        {id: 15, text: 'Hoc c++', status: true},
       ],
       todolistView: [],
       statusShow: 'all',
@@ -148,21 +157,19 @@ class Index extends Component {
 }
 const styles = StyleSheet.create({
   TodoList: {
-    margin: 10,
-    borderWidth: 1,
     borderRadius: 5,
     padding: 3,
     flex: 1,
     flexDirection: 'column',
   },
   Header: {
-    flex: 1,
+    height: 50,
   },
   Contents: {
-    flex: 5,
+    flex: 1,
   },
   Footer: {
-    flex: 1,
+    height: 50,
   },
 });
 export default Index;

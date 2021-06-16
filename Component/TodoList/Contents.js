@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: '#b3b3b3',
-    marginTop: 10,
     flex: 1,
+    margin: 5,
   },
 
   ImagesCheck: {
