@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
-import Index from './Component/TodoList';
+import TodoList from './Component/TodoList';
+// import Test from './Component/Tets';
 class App extends Component {
   render() {
-    return <Index />;
+    return (
+      <>
+        {/* <Test /> */}
+        <TodoList />
+      </>
+    );
   }
 }
 export default App;

@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import Header from './Header';
 import Contents from './Contents';
 import Footer from './Footer';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View, FlatList} from 'react-native';
 import uuid from 'react-native-uuid';
 class Index extends Component {
   constructor() {
     super();
     this.state = {
-      todolist: [
+      todoList: [
         {id: 1, text: 'Hoc wed', status: true},
         {id: 2, text: 'Hoc Tin', status: false},
         {id: 3, text: 'Hoc css', status: false},
@@ -23,29 +23,28 @@ class Index extends Component {
         {id: 12, text: 'Hoc c++', status: true},
         {id: 13, text: 'Hoc js', status: true},
         {id: 14, text: 'Hoc html', status: true},
-        {id: 15, text: 'Hoc c++', status: true},
       ],
-      todolistView: [],
+      todoListView: [],
       statusShow: 'all',
     };
   }
   static getDerivedStateFromProps(props, state) {
-    const {statusShow, todolist} = state;
-    let todolistView = todolist;
+    const {statusShow, todoList} = state;
+    let todoListView = todoList;
     switch (statusShow) {
       case 'active': {
-        todolistView = todolist.filter(number => number.status);
+        todoListView = todoList.filter(number => number.status);
         break;
       }
       case 'completed': {
-        todolistView = todolist.filter(num => !num.status);
+        todoListView = todoList.filter(num => !num.status);
         break;
       }
       default: {
         break;
       }
     }
-    return {todolistView};
+    return {todoListView};
   }
 
   updateStatusShow = statusShow => {
@@ -55,80 +54,80 @@ class Index extends Component {
   };
 
   checkStatus = id => {
-    const {todolist} = this.state;
-    todolist.forEach(item => {
+    const {todoList} = this.state;
+    todoList.forEach(item => {
       if (item.id === id) {
         item.status = !item.status;
       }
     });
     this.setState({
-      todolist,
+      todoList,
     });
   };
 
   addData = value => {
-    const {todolist} = this.state;
-    todolist.unshift({
+    const {todoList} = this.state;
+    todoList.unshift({
       id: uuid.v4(),
       text: value,
       status: true,
     });
     this.setState({
-      todolist,
+      todoList,
     });
   };
 
   updatingData = (id, value) => {
-    const {todolist} = this.state;
-    todolist.forEach(item => {
+    const {todoList} = this.state;
+    todoList.forEach(item => {
       if (item.id === id) {
         item.text = value;
       }
     });
     this.setState({
-      todolist,
+      todoList,
     });
   };
 
   deleteItem = id => {
-    const {todolist} = this.state;
-    const todoListCopy = [...todolist];
+    const {todoList} = this.state;
+    const todoListCopy = [...todoList];
     const todoListDeleted = todoListCopy.filter(todo => todo.id !== id);
     this.setState({
-      todolist: todoListDeleted,
+      todoList: todoListDeleted,
     });
   };
 
   numberActive = () => {
-    const {todolist} = this.state;
-    const todoNumber = todolist.filter(num => num.status);
+    const {todoList} = this.state;
+    const todoNumber = todoList.filter(num => num.status);
     return todoNumber.length;
   };
 
   clearCompleted = () => {
-    const {todolist} = this.state;
+    const {todoList} = this.state;
     this.setState({
-      todolist: todolist.filter(item => item.status),
+      todoList: todoList.filter(item => item.status),
     });
   };
   checkNumberCompleted = () => {
-    const {todolist} = this.state;
-    const todoNumber = todolist.filter(num => !num.status);
+    const {todoList} = this.state;
+    const todoNumber = todoList.filter(num => !num.status);
     return todoNumber.length;
   };
 
   render() {
-    const {todolistView, todolist} = this.state;
-    const numberTodolist = this.numberActive();
+    const {todoListView, todoList} = this.state;
+    const numbertodoList = this.numberActive();
     const onClearCompleted = this.checkNumberCompleted();
     return (
-      <View style={styles.TodoList}>
+      <View style={styles.todoList}>
         <View style={styles.Header}>
           <Header AddData={this.addData} />
         </View>
         <View style={styles.Contents}>
-          <ScrollView>
-            {todolistView.map(item => {
+          {/* <ScrollView> */}
+          {/* {todoListView.map(item => {
               return (
                 <Contents
                   item={item}
@@ -138,15 +137,28 @@ class Index extends Component {
                   updatingData={this.updatingData}
                 />
               );
-            })}
-          </ScrollView>
+            })} */}
+          {/* </ScrollView> */}
+          <FlatList
+            data={todoListView}
+            renderItem={({item, index}) => {
+              return (
+                <Contents
+                  item={item}
+                  index={item.id}
+                  checkStatus={this.checkStatus}
+                  deleteItem={this.deleteItem}
+                  updatingData={this.updatingData}
+                />
+              );
+            }}></FlatList>
         </View>
-        {todolist.length ? (
+        {todoList.length ? (
           <View style={styles.Footer}>
             <Footer
               clearCompleted={this.clearCompleted}
               updateStatusShow={this.updateStatusShow}
-              numberTodolist={numberTodolist}
+              numbertodoList={numbertodoList}
               onClearCompleted={onClearCompleted}
             />
           </View>
@@ -156,7 +168,7 @@ class Index extends Component {
   }
 }
 const styles = StyleSheet.create({
-  TodoList: {
+  todoList: {
     borderRadius: 5,
     padding: 3,
     flex: 1,
